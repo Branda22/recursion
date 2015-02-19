@@ -10,7 +10,7 @@ var stringifyJSON = function(obj) {
   		obj = obj.toString();
   	break;
   	case "string":
-  		obj;
+  		obj = obj ? obj : null;
   	break;
   	case "boolean":
   		obj = obj.toString();
@@ -20,16 +20,20 @@ var stringifyJSON = function(obj) {
   		if(Array.isArray(obj)){
   			temp = "[";
   			for(var i = 0; i < obj.length; i++){
+  				var item = obj[i];
+  				if(typeof item === "string") { 
+  					item = '"' + item + '"'; 
+  				}
   				if(i === obj.length - 1){
-  					temp += stringifyJSON(obj[i]);
+  					temp += stringifyJSON(item);
   				} else {
-  					temp += stringifyJSON(obj[i]) + ",";
+  					temp += stringifyJSON(item) + ",";
   				}
   			}
   			temp += "]";	
   		} else {
   			obj = "{";
-  			for (var item in obj){
+  			for (var itm in obj){
 
   			}
   		}
