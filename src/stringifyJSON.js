@@ -18,12 +18,12 @@ var stringifyJSON = function(obj) {
   		obj = obj.toString();
   		break;
   	case 'undefined':
-  		return undefined;
+  		obj = undefined;
   		break;
+  	case "function":
+		obj = undefined;
+	break
   	case "object":
-  		if(obj === null && typeof obj === "object"){
-  			obj = 'null';
-  		} 
   		var temp ="";
   		if(Array.isArray(obj)){
   			temp = "[";
@@ -45,8 +45,9 @@ var stringifyJSON = function(obj) {
   				// all keys are strings.
   				if (obj.hasOwnProperty(key)){
   					var value = obj[key];
+  					// if the value is not stringifiable return "{}"
+ 					// this cant be done recursively because functions, and undefined alone have to return undefined.
 	  				if(typeof value === 'function' || typeof value === 'undefined' ) { return "{}"; }
-	  				//if value is a string add extra quotes for them to appear during concatenation.
 	  				if (counter === lengthKeys){
 	  					temp += stringifyJSON(key) + ":" + stringifyJSON(value);
 	  				} else {
@@ -59,9 +60,6 @@ var stringifyJSON = function(obj) {
   		}
   		obj = temp;
   	break;
-  	case "function":
-  		return undefined;
-  		break;
   	default:
   		obj;
   }
