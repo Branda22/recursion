@@ -6,20 +6,23 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className
 ){
-  // your code here
-  function checkNodes(nodes){
-    if(!nodes){ // stops the recursion. 
-      return;
-    } else if(nodes.classList === className){ // check at the top level
-      results.push(nodes);
-    } else { //recurse to check at the nested levels.
-      for(var i = 0; i < nodes.length; i++){
-        checkNodes(nodes[i]);
-      }
-    } 
-  }
-  var elements = document.body;
+
+  var elements = document.body.childNodes;
   var results = [];
-  checkNodes(elements);
+  // your code here
+  function checkElements(elmnts){
+    if(!elmnts){
+      return;
+    } else {
+      for(var i = 0; i < elmnts.length; i++){
+        if(elmnts[i].className === className){
+          results.push(elmnts[i]);
+        } else {
+          checkElements(elmnts.childNodes);
+        }
+      }
+    }
+  }
+  checkElements(elements);
   return results;
 };
