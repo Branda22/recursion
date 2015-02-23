@@ -7,10 +7,15 @@
 var getElementsByClassName = function(className){
 
   function checkNodes(nodes){
-    var children = nodes.children;
+    //Child nodes is more reliable than .children
+    var children = nodes.childNodes; 
     for(var i = 0; i < children.length; i++){
-      if(children[i].classList.contains(className)){
-        results.push(children[i]);
+      //nodeType of 1 is for ELEMENT_NODE.
+      if(children[i].nodeType === 1){
+         //classList is used because some elements have more than one class.
+        if(children[i].classList.contains(className)){
+          results.push(children[i]);
+        }  
       }
       if(children[i].hasChildNodes()){
         checkNodes(children[i]);
@@ -18,7 +23,7 @@ var getElementsByClassName = function(className){
     }
   }
   
-  var allNodes = document.body;
+  var allNodes = document;
   var results = [];
   checkNodes(allNodes);
   return results;
