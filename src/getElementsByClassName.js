@@ -4,25 +4,22 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
-){
+var getElementsByClassName = function(className){
 
-  var elements = document.body.childNodes;
-  var results = [];
-  // your code here
-  function checkElements(elmnts){
-    if(!elmnts){
-      return;
-    } else {
-      for(var i = 0; i < elmnts.length; i++){
-        if(elmnts[i].className === className){
-          results.push(elmnts[i]);
-        } else {
-          checkElements(elmnts.childNodes);
-        }
+  function checkNodes(nodes){
+    var children = nodes.children;
+    for(var i = 0; i < children.length; i++){
+      if(children[i].classList.contains(className)){
+        results.push(children[i]);
+      }
+      if(children[i].hasChildNodes()){
+        checkNodes(children[i]);
       }
     }
   }
-  checkElements(elements);
+  
+  var allNodes = document.body;
+  var results = [];
+  checkNodes(allNodes);
   return results;
 };
